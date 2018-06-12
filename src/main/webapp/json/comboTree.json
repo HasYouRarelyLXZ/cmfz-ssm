@@ -1,0 +1,61 @@
+[
+  {
+    "id": "customer",
+    "text": "请选择",
+    "state": "open",
+    "children": [
+      {
+        "id": "id",
+        "text": "ID号"
+      },
+      {
+        "id": "username",
+        "text": "用户名"
+      },
+      {
+        "id": "sex",
+        "text": "性别"
+      },
+      {
+        "id": "phoneNum",
+        "text": "手机号"
+      },
+      {
+        "id": "dharmaName",
+        "text": "法名"
+      },
+      {
+        "id": "code",
+        "text": "盐值"
+      },
+      {
+        "id": "province",
+        "text": "归属地"
+      },
+      {
+        "id": "city",
+        "text": "城市"
+      },
+      {
+        "id": "headPic",
+        "text": "头像"
+      },
+      {
+        "id": "sign",
+        "text": "签名"
+      },
+      {
+        "id": "date",
+        "text": "注册日期"
+      },
+      {
+        "id": "status",
+        "text": "用户状态"
+      },
+      {
+        "id": "duru_id",
+        "text": "上师ID号"
+      }
+    ]
+  }
+]

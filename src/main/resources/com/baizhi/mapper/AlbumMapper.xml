@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.AlbumDao">
+    <sql id="album_column">
+        id,title,coverImg,`count`,`score`,`author`,`broadCast`,`brief`,`publishDate`
+    </sql>
+    <resultMap id="all" type="Album">
+        <id property="id" column="id"></id>
+        <result property="title" column="title"></result>
+        <result property="coverImg" column="coverImg"></result>
+        <result property="count" column="count"></result>
+        <result property="score" column="score"></result>
+        <result property="author" column="author"></result>
+        <result property="broadCast" column="broadCast"></result>
+        <result property="brief" column="brief"></result>
+        <result property="publishDate" column="publishDate"></result>
+        <collection property="children" ofType="Section">
+            <id property="id" column="cid"></id>
+            <result property="title" column="ctitle"></result>
+            <result property="size" column="size"></result>
+            <result property="duration" column="duration"></result>
+            <result property="uploadPath" column="uploadPath"></result>
+            <result property="uploadDate" column="uploadDate"></result>
+            <result property="times" column="times"></result>
+            <result property="oldname" column="oldname"></result>
+        </collection>
+    </resultMap>
+
+    <insert id="insert" parameterType="Album">
+        INSERT INTO
+        t_album ( <include refid="album_column"></include> )
+        VALUES(#{id},#{title},#{coverImg},#{count},#{score},#{author},#{broadCast},#{brief},#{publishDate})
+    </insert>
+    <select id="queryAlbumALL" resultMap="all">
+        SELECT t1.id,t1.title,t1.coverImg,t1.count,t1.score,t1.author,t1.broadCast,t1.brief,t1.publishDate,
+        t2.title ctitle,t2.id cid,t2.size,t2.times,t2.uploadPath,t2.duration,t2.uploadDate,t2.oldname
+        from t_album t1 LEFT JOIN t_section t2 ON t1.id=t2.album_id limit #{page},#{pageSize}
+    </select>
+
+
+    <select id="queryAlbumNum" resultType="int">
+        SELECT COUNT(*) FROM t_album
+    </select>
+    <select id="queryAlbum" parameterType="String" resultType="Album">
+        SELECT * FROM t_album WHERE id=#{id}
+    </select>
+    <update id="update">
+        UPDATE t_album set count=#{Status} WHERE id=#{id}
+    </update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

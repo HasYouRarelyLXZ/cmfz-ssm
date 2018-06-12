@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.MenuDao">
+    <sql id="Menu_column">id,title,iconCls,parent_id,url</sql>
+    <resultMap id="MenuAll" type="Menu">
+        <id property="id" column="t1id"></id>
+        <result property="title" column="t1title"></result>
+        <result property="iconCls" column="t1iconCls"></result>
+        <result property="parent_id" column="t1parent_id"></result>
+        <result property="url" column="t1url"></result>
+        <collection property="childMenu" ofType="Menu">
+            <id property="id" column="tid"></id>
+            <result property="title" column="ttitle"></result>
+            <result property="iconCls" column="ticonCls"></result>
+            <result property="parent_id" column="tparent_id"></result>
+            <result property="url" column="turl"></result>
+        </collection>
+    </resultMap>
+
+    <select id="queryMenu" resultMap="MenuAll">
+        SELECT t1.id t1id,t1.title t1title,t1.iconCls t1iconCls,t1.parent_id t1parent_id,t1.url t1url,
+        t2.id tid,t2.title ttitle,t2.iconCls ticonCls,t2.parent_id tparent_id,t2.url turl
+        FROM t_menu t1 LEFT JOIN t_menu t2
+        ON t1.id=t2.parent_id WHERE t1.parent_id IS NULL
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

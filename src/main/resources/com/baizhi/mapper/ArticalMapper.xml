@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.ArticalMapper">
+    <resultMap id="BaseResultMap" type="com.baizhi.entity.Artical">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="insertPath" property="insertpath" jdbcType="VARCHAR"/>
+        <result column="publishDate" property="publishdate" jdbcType="DATE"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, title, content, insertPath, publishDate
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_artical
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryArticalALL" resultType="Artical">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_artical order by publishDate desc limit #{page},#{pageSize}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from t_artical
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.baizhi.entity.Artical">
+        insert into t_artical (id, title, content,
+        insertPath, publishDate)
+        values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+        #{insertpath,jdbcType=VARCHAR}, #{publishdate,jdbcType=DATE})
+    </insert>
+    <insert id="insertSelective" parameterType="com.baizhi.entity.Artical">
+        insert into t_artical
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="insertpath != null">
+                insertPath,
+            </if>
+            <if test="publishdate != null">
+                publishDate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="insertpath != null">
+                #{insertpath,jdbcType=VARCHAR},
+            </if>
+            <if test="publishdate != null">
+                #{publishdate,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.baizhi.entity.Artical">
+        update t_artical
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="insertpath != null">
+                insertPath = #{insertpath,jdbcType=VARCHAR},
+            </if>
+            <if test="publishdate != null">
+                publishDate = #{publishdate,jdbcType=DATE},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Artical">
+        update t_artical
+        set title = #{title,jdbcType=VARCHAR},
+        content = #{content,jdbcType=VARCHAR},
+        insertPath = #{insertpath,jdbcType=VARCHAR},
+        publishDate = #{publishdate,jdbcType=DATE}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "log_customer",
+    "text": "请选择",
+    "state": "open",
+    "children": [
+      {
+        "id": "id",
+        "text": "ID号"
+      },
+      {
+        "id": "name",
+        "text": "用户名称"
+      },
+      {
+        "id": "date",
+        "text": "时间"
+      },
+      {
+        "id": "transaction",
+        "text": "操作"
+      },
+      {
+        "id": "result",
+        "text": "操作结果"
+      }
+    ]
+  }
+]

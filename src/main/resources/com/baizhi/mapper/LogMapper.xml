@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.LogMapper">
+    <resultMap id="BaseResultMap" type="com.baizhi.entity.Log">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="date" property="date" jdbcType="DATE"/>
+        <result column="transaction" property="transaction" jdbcType="VARCHAR"/>
+        <result column="result" property="result" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, name, date, transaction, result
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_log
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="selectAll" resultType="Log">
+        SELECT <include refid="Base_Column_List"></include>  FROM t_log limit #{page},#{pageSize}
+    </select>
+    <select id="getRowNum" resultType="int">
+        SELECT COUNT(*) from t_log
+    </select>
+    <select id="selectAllList" resultType="Log">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_log
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from t_log
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.baizhi.entity.Log">
+        insert into t_log (id, name, date,
+        transaction, result)
+        values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{date,jdbcType=DATE},
+        #{transaction,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.baizhi.entity.Log">
+        insert into t_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="date != null">
+                date,
+            </if>
+            <if test="transaction != null">
+                transaction,
+            </if>
+            <if test="result != null">
+                result,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="date != null">
+                #{date,jdbcType=DATE},
+            </if>
+            <if test="transaction != null">
+                #{transaction,jdbcType=VARCHAR},
+            </if>
+            <if test="result != null">
+                #{result,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.baizhi.entity.Log">
+        update t_log
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="date != null">
+                date = #{date,jdbcType=DATE},
+            </if>
+            <if test="transaction != null">
+                transaction = #{transaction,jdbcType=VARCHAR},
+            </if>
+            <if test="result != null">
+                result = #{result,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Log">
+        update t_log
+        set name = #{name,jdbcType=VARCHAR},
+        date = #{date,jdbcType=DATE},
+        transaction = #{transaction,jdbcType=VARCHAR},
+        result = #{result,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

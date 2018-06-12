@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!-- 开启注解扫描 -->
+    <context:component-scan base-package="com.baizhi.service"/>
+
+    <context:property-placeholder location="classpath:/conf/conn.properties"/>
+    <!--数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="username" value="${mysql.username}"/>
+        <property name="password" value="${mysql.password}"/>
+        <property name="driverClassName" value="${mysql.driver}"/>
+        <property name="url" value="${mysql.url}"/>
+    </bean>
+
+    <!--sqlSessionFactoryBean-->
+    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="typeAliasesPackage" value="com.baizhi.entity"/>
+        <property name="mapperLocations" value="classpath:com/baizhi/mapper/*.xml"/>
+    </bean>
+
+    <!--mapperLocation-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sessionFactory"/>
+        <property name="basePackage" value="com.baizhi.dao"/>
+    </bean>
+
+    <aop:config></aop:config>
+    <!--事务-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 通知消息-->
+    <bean id="advisor" class="com.baizhi.aop.Around"></bean>
+    <!--组装切面-->
+    <!-- 默认false声明创建代理类的方式为jdk  基于接口 -->
+    <!-- 声明true创建代理类的方式为cglib   基于实现类-->
+    <!-- @annotation做切入点   注意1.注解放在实现类上 2.生成动态代理方式为cglib-->
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="pc" expression="@annotation(com.baizhi.aop.LogAnnotation)"></aop:pointcut>
+        <aop:advisor advice-ref="advisor" pointcut-ref="pc"></aop:advisor>
+    </aop:config>
+
+
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+</beans>
